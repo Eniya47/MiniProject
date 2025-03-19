@@ -17,8 +17,9 @@ export const SearchBox = ({
 }) => {
   return (
     <>
-      <h2 className="font-extrabold text-xl ">{title}</h2>
-      <Form onSubmit={onSearch}>
+      <h2 className="font-extrabold text-4xl text-center mb-10">{title}</h2>
+      {/* Uncomment this if you want to include the form and input */}
+      {/* <Form onSubmit={onSearch}>
         <Input
           disabled={disabled}
           placeholder="Search for a recipe"
@@ -27,11 +28,10 @@ export const SearchBox = ({
           handleChange={(e: FormEvent<HTMLInputElement>) =>
             setQuery(e.currentTarget.value)
           }
-          className={`bg-zinc-900 py-1 px-4 w-full shadow-xl  placeholder:text-sm 
-        hover:bg-zinc-800 cursor-pointer focus:outline-none my-3
-        `}
+          className={`bg-zinc-900 py-1 px-4 w-full shadow-xl placeholder:text-sm 
+            hover:bg-zinc-800 cursor-pointer focus:outline-none my-3`}
         />
-      </Form>
+      </Form> */}
     </>
   );
 };

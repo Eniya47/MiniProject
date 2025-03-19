@@ -24,7 +24,8 @@ export const RecipeCard = ({
       ingredients={ingredients}
       description={description}
       email={user}
-      avatar="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+      note={note}
+      avatar="https://previews.123rf.com/images/yupiramos/yupiramos1803/yupiramos180326543/98048818-restaurant-chef-avatar-character-vector-illustration-design.jpg"
     >
       <div className="flex justify-end">
         <Button
@@ -115,13 +116,15 @@ export const Card = ({
             {ingredients}
           </span>
         </p>
-
-        <p
-          className={`text-white font-light text-sm my-2 ${
-            !isFull && "truncate overflow-hidden ..."
-          }`}
-        >
-          {description}
+        <p className="text-orange-500 font-light text-sm">
+          Description:{" "}
+          <span
+            className={`text-white  ${
+              !isFull && "truncate overflow-hidden ..."
+            }`}
+          >
+            {description}
+          </span>
         </p>
 
         {note && (

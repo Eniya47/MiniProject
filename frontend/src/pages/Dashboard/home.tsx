@@ -40,11 +40,11 @@ export const Home = () => {
   };
   return (
     <Suspense fallback={<UILoader />}>
-      <div className="text-white w-full h-full">
+      <div className="text-white w-full  h-full">
         <SearchBox {...props} />
         {/* <SearchBox
           title="Recipe"
-          onSearch={handleSearch}
+          // onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
           disabled={!data?.data}
@@ -54,7 +54,7 @@ export const Home = () => {
         ) : (
           <>
             {!!state?.length ? (
-              <div className="flex flex-wrap gap-3 flex-col items-center justify-center md:justify-start md:items-start md:flex-row w-full">
+              <div className="flex flex-wrap gap-3 flex-col items-center justify-center  md:flex-row w-full">
                 {state.map((recipe: IRECIPERESPONSE, index: number) => (
                   <RecipeCard
                     key={index + recipe._id}

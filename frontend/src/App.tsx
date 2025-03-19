@@ -39,7 +39,7 @@ function App() {
     },
   ]);
   return (
-    <div className="container h-[100vh] w-[100vw]">
+    <div className="container h-full w-full">
       <Suspense fallback={<UILoader />}>
         <RouterProvider router={router} fallbackElement={<UILoader />} />
       </Suspense>

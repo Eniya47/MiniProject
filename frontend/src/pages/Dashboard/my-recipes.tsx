@@ -7,14 +7,14 @@ import { instance } from "../../config";
 import { AUTH_TYPE, IRECIPERESPONSE } from "../../@types";
 import { AuthenticationContext } from "../../context";
 import { NoRecipe } from "./common";
-import { useRecipe } from "../../hooks";
+import { useRecipe } from "../../hooks/recipe"; // Make sure this is the correct path to your useRecipe hook
 import { SearchLoader, UILoader } from "../../components/loaders";
 
 export const MyRecipes = () => {
-  const { loading, searchRecipe } = useRecipe();
+  const { loading, searchRecipe } = useRecipe(); // Ensure useRecipe is being used correctly
   const { user } = useContext(AuthenticationContext) as AUTH_TYPE;
 
-  //useswr fetcher
+  // useswr fetcher
   const fetcher = (url: string) => instance.get(url).then((res) => res.data);
   const { data, error } = useSWR(
     `/recipe/user/${sessionStorage.getItem("id")}`,
@@ -30,7 +30,7 @@ export const MyRecipes = () => {
     return null;
   }
 
-  const [state, setState] = useState<IRECIPERESPONSE[]>(data || {});
+  const [state, setState] = useState<IRECIPERESPONSE[]>(data || []);
   const [query, setQuery] = useState<string>("");
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,7 +45,7 @@ export const MyRecipes = () => {
 
   return (
     <Suspense fallback={<UILoader />}>
-      <div className="text-white w-full h-full">
+      <div className="text-white w-full h-full px-10 flex flex-col">
         <SearchBox
           title="My Recipes"
           onSearch={handleSearch}
@@ -58,7 +58,7 @@ export const MyRecipes = () => {
         ) : (
           <>
             {!!state?.length ? (
-              <div className="flex flex-wrap gap-3 flex-col md:flex-row w-ful">
+              <div className="flex flex-wrap gap-3 flex-col md:flex-row w-full">
                 {state.map((recipe: IRECIPERESPONSE, index: number) => (
                   <RecipeCard
                     key={index + recipe._id}
@@ -68,9 +68,7 @@ export const MyRecipes = () => {
                 ))}
               </div>
             ) : (
-              <>
-                <NoRecipe />
-              </>
+              <NoRecipe />
             )}
           </>
         )}
