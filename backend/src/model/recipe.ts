@@ -10,12 +10,12 @@ interface IImage {
 interface IRecipe {
   title: string;
   description: string;
-  note: string;
-  ingredients: string[]; // Changed to array of strings
-  instructions: string[]; // Added for step-by-step instructions
-  prepTime: string; // e.g., "15 minutes"
-  cookTime: string; // e.g., "30 minutes"
-  servings: number; // e.g., 4
+  note?: string; // Optional as per frontend
+  ingredients: string; // Changed to string to match frontend TextArea
+  instructions?: string[]; // Optional since not in frontend
+  prepTime?: string; // Optional since not in frontend
+  cookTime?: string; // Optional since not in frontend
+  servings?: number; // Optional since not in frontend
   image: IImage;
   user?: string; // Optional reference to User
   createdAt?: Date; // Provided by timestamps
@@ -34,7 +34,7 @@ const recipeSchema = new Schema<IRecipe>(
       type: String,
       required: [true, "Recipe title is required"],
       index: true,
-      trim: true, // Removes leading/trailing whitespace
+      trim: true,
     },
     description: {
       type: String,
@@ -44,31 +44,32 @@ const recipeSchema = new Schema<IRecipe>(
     },
     note: {
       type: String,
-      required: false,
+      required: false, // Optional as per frontend
       index: true,
       trim: true,
     },
     ingredients: {
-      type: [String], // Array of strings for individual ingredients
+      type: String, // Changed to String to match frontend TextArea
       required: [true, "Ingredients are required"],
       index: true,
+      trim: true,
     },
     instructions: {
-      type: [String], // Array of strings for step-by-step instructions
-      required: [true, "Instructions are required"],
+      type: [String], // Still an array, but optional
+      required: false, // Not collected in frontend
     },
     prepTime: {
       type: String,
-      required: [true, "Preparation time is required"],
+      required: false, // Not collected in frontend
     },
     cookTime: {
       type: String,
-      required: [true, "Cooking time is required"],
+      required: false, // Not collected in frontend
     },
     servings: {
       type: Number,
-      required: [true, "Number of servings is required"],
-      min: [1, "Servings must be at least 1"],
+      required: false, // Not collected in frontend
+      min: [1, "Servings must be at least 1"], // Constraint applies if provided
     },
     image: {
       url: {
@@ -82,19 +83,19 @@ const recipeSchema = new Schema<IRecipe>(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt fields
-    autoIndex: true, // Automatically creates indexes for indexed fields
-    toJSON: { virtuals: true }, // Includes virtuals in JSON output
-    toObject: { virtuals: true }, // Includes virtuals in object output
+    timestamps: true,
+    autoIndex: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 // Optional: Add a virtual field (e.g., total time)
 recipeSchema.virtual("totalTime").get(function () {
-  // Simple calculation assuming prepTime and cookTime are strings like "15 minutes"
-  const prep = parseInt(this.prepTime) || 0;
-  const cook = parseInt(this.cookTime) || 0;
-  return `${prep + cook} minutes`;
+  // Only calculate if prepTime and cookTime are provided
+  const prep = this.prepTime ? parseInt(this.prepTime) || 0 : 0;
+  const cook = this.cookTime ? parseInt(this.cookTime) || 0 : 0;
+  return prep + cook > 0 ? `${prep + cook} minutes` : "Not specified";
 });
 
 // Create and export the Model
