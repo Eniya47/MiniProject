@@ -54,9 +54,10 @@ import mongoose from "mongoose";
 
 const runDB = async () => {
   mongoose.set("strictQuery", true);
-  await connect(process.env.MONGODB_URI as string)
-    .then(() => console.log("DB connected successfully"))
-    .catch(() => console.log("DB not connected"));
+  await connect(process.env.MONGODB_URI as string).then(() =>
+    console.log("DB connected successfully")
+  );
+  // .catch(() => console.log("DB not connected"));
 };
 
 // Insert sample users
